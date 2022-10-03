@@ -3,14 +3,37 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createGlobalStyle} from "styled-components";
+import {Provider} from "react-redux";
+import store from "./store";
 
+const Global = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+  }
+
+`
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <Provider store={store}>
+    <React.StrictMode>
+        <Global/>
+        <App/>
+    </React.StrictMode>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

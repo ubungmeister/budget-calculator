@@ -1,26 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import styled from "styled-components";
+import {DebitCredit} from "./components/DebitCredit";
+import {TransactionHistory} from "./components/TransactionHistory";
+import {AddTransactionForm} from "./components/AddTransactionForm";
+import {AppRootStateType} from "./store";
+import {useDispatch, useSelector} from "react-redux";
+
+
+
+export type TransactionType ={
+    id: string
+    text: string
+    amount:number
+}
+export type BalanceType ={
+    income:number
+    expense:number
+    total:number
+}
 
 function App() {
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+        <Container>
+            <Header>Expense tracker</Header>
+            <DebitCredit/>
+            <TransactionHistory/>
+            <AddTransactionForm/>
+        </Container>
     </div>
   );
 }
 
 export default App;
+
+const Container = styled.div`
+  margin: 30px auto;
+  width: 350px;
+`
+const Header = styled.div`
+    padding-left: 70px;
+    justify-content: center;
+    font-size: 25px;
+`
