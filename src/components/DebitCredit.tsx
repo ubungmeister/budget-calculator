@@ -14,8 +14,7 @@ export const DebitCredit = () => {
     const total = Number(income) - Number(-expense)
 
     return (
-        <>
-            <div>Total: {total}</div>
+
         <Container>
                 <DivWrapper>
                     <IncomeWrapper>Inflow</IncomeWrapper>
@@ -23,42 +22,55 @@ export const DebitCredit = () => {
                 </DivWrapper>
                 <DivWrapper>
                     <IncomeWrapper>Outflow</IncomeWrapper>
-                    <MinusWapper>{expense}$</MinusWapper>
+                    <MinusWrapper>-{expense}$</MinusWrapper>
+                </DivWrapper>
+                <DivWrapper>
+                    <IncomeWrapper></IncomeWrapper>
+                    <TotalWrapper>{total}$</TotalWrapper>
                 </DivWrapper>
         </Container>
-        </>
+
     );
 };
 
 const Container = styled.div`
-  background-color: #fff;
-  box-shadow: var(--box-shadow);
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-
+  margin-bottom: 20px;
+  padding: 8px 0;
+  flex-direction: column;
+  height: 100px;
+  box-sizing: border-box;
+  display: block;
+  
 `
 const DivWrapper = styled.div`
-  flex: 1;
-  text-align: center;
-  :first-of-type {border-right: 1px solid #dedede};
+  display: flex;
+  flex-direction: row;
+  color: #333;
+  font-size: 16px;
+  line-height: 16px;
+  padding: 8px 16px;
+  gap: 200px;
+  position: relative;
+  margin: 5px;
 `
 const IncomeWrapper = styled.div`
-  font-size: 20px;
-  letter-spacing: 1px;
-  margin: 5px 0;
-`
-const PlusWrapper = styled.p`
-  font-size: 20px;
-  letter-spacing: 1px;
-  margin: 5px 0;
-  color: #2ecc71;
-`
-const MinusWapper = styled.p`
-  font-size: 20px;
-  letter-spacing: 1px;
-  margin: 5px 0;
-  color: #c0392b;
-`
+  justify-content: center;
+  position: relative;
 
+`
+const PlusWrapper = styled.div`
+  position: absolute;
+  right: 16px;
+
+  color: #039be5;
+`
+const MinusWrapper = styled.div`
+  color: #e51c23;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #767676;
+`
+const TotalWrapper=styled.div`
+  color: #757575;
+  position: absolute;
+  right: 16px;
+`

@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {createGlobalStyle} from "styled-components";
 import {Provider} from "react-redux";
 import store from "./store";
+import 'react-datepicker/dist/react-datepicker.css'
 
 const Global = createGlobalStyle`
   * {
@@ -21,6 +22,12 @@ const Global = createGlobalStyle`
     min-height: 100vh;
     margin: 0;
     font-family: 'Lato', sans-serif;
+  }
+  .react-datepicker-wrapper,
+  .react-datepicker__input-container,
+  .react-datepicker__input-container input {
+    display: block;
+    width: 100%;
   }
 
 `
