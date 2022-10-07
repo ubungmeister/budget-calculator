@@ -5,49 +5,75 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 type InitialState = {
     transactions: Array<TransactionType>
-    income:number
-    expense:number
-    total:number
-    popUp:boolean
+    copyOfTransactions: Array<TransactionType>
+    income: number
+    expense: number
+    total: number
+    popUpForm: boolean
+    month: number
+    popUpCalendar: boolean
+    dateRange:DateType
 }
 const initialState: InitialState = {
-    transactions: [
-        // {id: v1(), text: 'Flower', amount: -20, date: '05/05/2022'},
-        // {id: v1(), text: 'Salary', amount: 300},
-        // {id: v1(), text: 'Book', amount: -10},
-        // {id: v1(), text: 'Camera', amount: 150}
-    ],
-    income:0, expense:0, total:0, popUp:false
+    transactions: [],
+    copyOfTransactions: [],
+    income: 0,
+    expense: 0,
+    total: 0,
+    popUpForm: false,
+    month: new Date().getMonth(),
+    popUpCalendar:false,
+    dateRange:{start: new Date(),end:new Date()}
 }
 type PayloadType = {
-    text:string,
-    amount:number
-    date:Date
+    text: string,
+    amount: number
+    date: Date
+    category: string
+}
+export type DateType = {
+    start:Date
+    end:Date
 }
 
 
 const transactionsSlice = createSlice({
     name: 'transaction',
     initialState,
-    reducers:{
-        addTransaction(state, action:PayloadAction<PayloadType>){
-            state.transactions.push({
-                id: v1(),
-                text: action.payload.text,
-                amount: action.payload.amount,
-                date:action.payload.date
-            })
+    reducers: {
+        addTransaction(state, action: PayloadAction<PayloadType>) {
+            let text = action.payload.text
+            let amount = action.payload.amount
+            let date = action.payload.date
+            let category = action.payload.category
+            state.transactions = [
+                {id: v1(), text, amount, date, category}, ...state.transactions]
+
+            state.copyOfTransactions = state.transactions
         },
 
-        deleteTransaction(state, action:PayloadAction<string>){
-           state.transactions = state.transactions.filter(el=>el.id !== action.payload)
+        deleteTransaction(state, action: PayloadAction<string>) {
+            state.copyOfTransactions = state.transactions.filter(el => el.id !== action.payload)
         },
-        changePopUp(state,action:PayloadAction<boolean>){
-            state.popUp = action.payload
+        changePopUp(state, action: PayloadAction<boolean>) {
+            state.popUpForm = action.payload
+        },
+        changePopUpCalendar(state, action: PayloadAction<boolean>) {
+            state.popUpCalendar = action.payload
+        },
+        filterTransaction(state, action: PayloadAction<number>) {
+            console.log(action.payload)
+            state.copyOfTransactions = state.transactions.filter(el => el.date.getMonth() === action.payload)
+        },
+        filterDateTransaction(state,action:PayloadAction<DateType>){
+            state.dateRange = action.payload
+            state.copyOfTransactions = state.transactions.filter
+            (el=>el.date >= action.payload.start
+                && el.date <= action.payload.end)
         }
     }
 
 })
 
-export const {addTransaction, deleteTransaction, changePopUp} = transactionsSlice.actions;
+export const {addTransaction, deleteTransaction, changePopUp, changePopUpCalendar,filterTransaction,filterDateTransaction} = transactionsSlice.actions;
 export default transactionsSlice.reducer

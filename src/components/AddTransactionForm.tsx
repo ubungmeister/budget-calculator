@@ -1,33 +1,50 @@
-import React, {useState} from 'react';
-import styled, {createGlobalStyle} from "styled-components";
+import React, {ChangeEvent, useState} from 'react';
+import styled from "styled-components";
 import {useDispatch} from "react-redux";
 import {addTransaction, changePopUp} from "../store/slice";
 import DatePicker from "react-datepicker";
 import {FaWindowClose} from "react-icons/fa";
+import {SelectForm} from "./SelectForm";
+
+
 
 
 export const AddTransactionForm = () => {
     const [text, setText] = useState('')
     const [amount, setAmount] = useState(0)
-    const [date, setStartDate] = useState<Date>(new Date("2/01/22"));
-    const [popUpForm, setPopUpForm]=useState(false)
+    const [date, setStartDate] = useState<Date>(new Date());
+    const [popUpForm, setPopUpForm] = useState(false)
+    const [category, setCategory] = useState('')
+    const [expense, setExpense] = useState(false)
     const dispatch = useDispatch()
 
+    const plusCategories = ['salary', 'business', 'transfer', 'interest', 'other']
     const onClickHandler = () => {
 
-        if (amount !== 0 && text.trim().length > 0) {
-            dispatch(addTransaction({text, amount, date}))
-        }
+
+        dispatch(addTransaction({text, amount, date, category}))
         setText('')
         setAmount(0)
         setStartDate(new Date("2/01/22"))
         setPopUpForm(false)
+        setCategory('')
         dispatch(changePopUp(popUpForm))
     }
 
-    const onPopUpHandler =()=>{
+    const onPopUpHandler = () => {
         setPopUpForm(false)
         dispatch(changePopUp(popUpForm))
+    }
+    const ExpenseHandler = () => {
+        setExpense(!expense)
+    }
+
+    const AmountHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
+        if (plusCategories.includes(category)) {
+
+            setAmount(+e.target.value)
+        }else{setAmount(-Math.abs(+e.target.value))}
     }
 
     return (
@@ -38,39 +55,26 @@ export const AddTransactionForm = () => {
                     <FaWindowClose onClick={onPopUpHandler}/>
                 </ButtonWrapper>
                 <InputWrapper>
-                   <CategoryWrapper placeholder='Category'/>
+                    {expense
+                        ? <ExpenseWrapper onClick={ExpenseHandler}>Expense</ExpenseWrapper>
+                        : <ExpenseWrapper onClick={ExpenseHandler}>Income</ExpenseWrapper>
+                    }
+                    <SelectForm category={setCategory} isExpense={expense}/>
                     <CategoryWrapper type='number' value={amount}
-                                     onChange={(e)=>setAmount(+e.target.value)}
+                                     onChange={AmountHandler}
                                      placeholder='Amount'/>
                 </InputWrapper>
                 <InputWrapper>
                     <DateWrapper closeOnScroll={true}
-                                selected={date}
-                                onChange={(date:Date) => setStartDate(date)}/>
-                    <CategoryWrapper onChange={(e)=>setText(e.target.value)}
+                                 selected={date}
+                                 onChange={(date: Date) => setStartDate(date)}/>
+                    <CategoryWrapper onChange={(e) => setText(e.target.value)}
                                      placeholder='Note'/>
                 </InputWrapper>
                 <AddButtonWrapper>
                     <Button onClick={onClickHandler}>Add</Button>
                     <Button onClick={onPopUpHandler}>Cancel</Button>
                 </AddButtonWrapper>
-
-                {/*<ControlWrapper>*/}
-                {/*    <LabelWrapper htmlFor="text">Text</LabelWrapper>*/}
-                {/*    <InputWrapper type='text' value={text}*/}
-                {/*                  onChange={(e)=>setText(e.target.value)}*/}
-                {/*                  placeholder="Enter text..."/>*/}
-                {/*</ControlWrapper>*/}
-                {/*<ControlWrapper>*/}
-                {/*    <LabelWrapper htmlFor="amount">Amount <br/>*/}
-                {/*        (negative - expense, positive - income)</LabelWrapper>*/}
-                {/*    <InputWrapper type='number' value={amount}*/}
-                {/*                  onChange={(e)=>setAmount(+e.target.value)}*/}
-                {/*                  placeholder="Enter amount..."/>*/}
-
-                {/*</ControlWrapper>*/}
-
-                {/*<ButtonWrapper onClick={onClickHandler}>Add transaction</ButtonWrapper>*/}
             </Wrapper>
         </Container>
     );
@@ -107,22 +111,37 @@ const TitleWrapper = styled.div`
 const InputWrapper = styled.div`
   display: flex;
   justify-content: left;
-  gap: 20px;
+  gap: 16px;
 
 `
 const CategoryWrapper = styled.input`
   height: 40px;
   width: 140px;
   padding-left: 30px;
-  background-color:#fafafa ;
+  background-color: #fafafa;
   border-radius: 7px;
   border: 1px solid #767676
 `
+const ExpenseWrapper = styled.div`
+  text-align: center;
+  padding: 8px;
+  height: 40px;
+  width: 100px;
+  background-color: #282C340A;
+  border-radius: 70px;
+  border: none;
+  cursor: pointer;
+  color: #008000FF;
+  &:hover {
+    background-color: #039be5;
+    color: white;
+`
+
 const DateWrapper = styled(DatePicker)`
   height: 40px;
   padding-left: 10px;
-  color:#767676 ;
-  background-color:#fafafa ;
+  color: #767676;
+  background-color: #fafafa;
   border-radius: 7px;
   border: 1px solid #767676
 `
@@ -138,10 +157,11 @@ const ButtonWrapper = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
   &:hover {
-    background-color: #9b1237;
+    background-color: #039be5;
     color: white;
-    
+
 `
 const AddButtonWrapper = styled.div`
   display: flex;

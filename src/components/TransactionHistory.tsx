@@ -8,7 +8,7 @@ export interface ColorProps{
     amount:number
 }
 export const TransactionHistory = () => {
-    let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.transactions)
+    let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.copyOfTransactions)
     const dispatch=useDispatch()
     console.log(transactions)
     return (
@@ -21,6 +21,7 @@ export const TransactionHistory = () => {
                             <div>{el.text}</div>
                             <SpanWrapper>{el.amount}</SpanWrapper>
                             <div>{el.date.toLocaleDateString('en-US')}</div>
+                            <div>{el.category}</div>
                             <ButtonWrapper
                                 onClick={(e)=>
                                     dispatch(deleteTransaction(el.id))}>x</ButtonWrapper>

@@ -6,7 +6,9 @@ import {TransactionHistory} from "./components/TransactionHistory";
 import {AddTransactionForm} from "./components/AddTransactionForm";
 import {AppRootStateType} from "./store";
 import {useDispatch, useSelector} from "react-redux";
-import {changePopUp} from "./store/slice";
+import {changePopUp, changePopUpCalendar, DateType, filterDateTransaction, filterTransaction} from "./store/slice";
+import DatePicker from "react-datepicker";
+import {RangeCalendar} from "./components/RangeCalendar";
 
 
 export type TransactionType = {
@@ -14,6 +16,7 @@ export type TransactionType = {
     text: string
     amount: number
     date: Date
+    category: string
 }
 export type BalanceType = {
     income: number
@@ -22,27 +25,38 @@ export type BalanceType = {
 }
 
 function App() {
-    let popUpForm = useSelector<AppRootStateType, boolean>(state => state.transaction.popUp)
-    const dispatch = useDispatch()
-    const [popUp, setPopUpForm]=useState(popUpForm)
-    const onPopUpHandler =()=>{
-        setPopUpForm(true)
-        dispatch(changePopUp(popUp))
+    const popUpForm = useSelector<AppRootStateType, boolean>(state => state.transaction.popUpForm)
+    const popUpCalendar = useSelector<AppRootStateType, boolean>(state => state.transaction.popUpCalendar)
+    const dateRange = useSelector<AppRootStateType, DateType>(state => state.transaction.dateRange)
+    const dateFormat=()=>{
+        return dateRange.end.getMonth() +'/'+ dateRange.end.getDate() +'/'+ dateRange.end.getFullYear()+'-'
+        +dateRange.start.getMonth() +'/'+ dateRange.start.getDate() +'/'+ dateRange.start.getFullYear()
     }
+
+    const dispatch = useDispatch()
+    const onCurrentMonth = () => {
+        dispatch(filterTransaction(new Date().getMonth()))
+    }
+    const onLastMonth = () => {
+        dispatch(filterTransaction(new Date().getMonth() - 1))
+    }
+
     return (
         <div>
+
             <Container>
                 <Filter>
-                    <FilterItem>LAST MONTH</FilterItem>
-                    <FilterItem>THIS MONTH</FilterItem>
-                    <FilterItem>CUSTOM</FilterItem>
+                    <FilterItem onClick={onLastMonth}>LAST MONTH</FilterItem>
+                    <FilterItem onClick={onCurrentMonth}>THIS MONTH</FilterItem>
+                    <Calendar onClick={()=>dispatch(changePopUpCalendar(true))}>
+                        {dateFormat()}</Calendar>
                 </Filter>
+                {popUpCalendar ? <RangeCalendar/>:''}
                 <DebitCredit/>
                 <TransactionHistory/>
                 {popUpForm ? <AddTransactionForm/> : ''}
-                {/*<AddTransactionForm/>*/}
             </Container>
-            <PopUpButon onClick={onPopUpHandler}>Add Transaction</PopUpButon>
+            <PopUpButon onClick={()=>dispatch(changePopUp(true))}>Add Transaction</PopUpButon>
         </div>
     );
 }
@@ -56,8 +70,7 @@ const Container = styled.div`
   justify-content: center;
   padding: 22px 16px 0;
   align-items: center;
-  width: 400px;
-  //min-height: 75vh;
+  width: 500px;
   background-color: #fafafa;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
   border-radius: 15px;
@@ -76,9 +89,17 @@ const FilterItem = styled.div`
   font-size: 15px;
   line-height: 18px;
   color: rgba(0, 0, 0, .54);
-  font-weight: 500;
   padding: 15px 15px;
   outline: none;
+  cursor: pointer;
+`
+const Calendar = styled.div`
+  font-size: 14px;
+  line-height: 18px;
+  color: rgba(0, 0, 0, .54);
+  padding: 15px 15px;
+  outline: none;
+  cursor: pointer;
 `
 const PopUpButon = styled.div`
   justify-content: center;

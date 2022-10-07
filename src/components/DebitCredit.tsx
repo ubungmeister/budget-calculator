@@ -5,7 +5,7 @@ import {AppRootStateType} from "../store";
 import {TransactionType} from "../App";
 
 export const DebitCredit = () => {
-    let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.transactions)
+    let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.copyOfTransactions)
     const amounts = transactions.map(el=>el.amount)
     const expense =  amounts.filter(el=>el < 0)
         .reduce((acc, el)=> (acc = acc + el),0).toFixed(2)
@@ -18,11 +18,11 @@ export const DebitCredit = () => {
         <Container>
                 <DivWrapper>
                     <IncomeWrapper>Inflow</IncomeWrapper>
-                    <PlusWrapper>+{income}$</PlusWrapper>
+                    <PlusWrapper>{income}$</PlusWrapper>
                 </DivWrapper>
                 <DivWrapper>
                     <IncomeWrapper>Outflow</IncomeWrapper>
-                    <MinusWrapper>-{expense}$</MinusWrapper>
+                    <MinusWrapper>{expense}$</MinusWrapper>
                 </DivWrapper>
                 <DivWrapper>
                     <IncomeWrapper></IncomeWrapper>
