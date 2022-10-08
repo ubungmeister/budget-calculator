@@ -14,7 +14,7 @@ const Global = createGlobalStyle`
   }
 
   body {
-    background-color: #f7f7f7;
+    background-color: #e4e4e4;
     display: flex;
     flex-direction: column;
     align-items: center;

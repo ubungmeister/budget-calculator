@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from "styled-components";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootStateType} from "../store";
-import {TransactionType} from "../App";
+import {TransactionType} from "../store/slice";
+
 
 export const DebitCredit = () => {
     let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.copyOfTransactions)
@@ -11,7 +12,7 @@ export const DebitCredit = () => {
         .reduce((acc, el)=> (acc = acc + el),0).toFixed(2)
     const income =  amounts.filter(el=>el > 0)
         .reduce((acc, el)=> (acc = acc + el),0).toFixed(2)
-    const total = Number(income) - Number(-expense)
+    const total = (Number(income) - Number(-expense)).toFixed(2)
 
     return (
 
@@ -34,13 +35,13 @@ export const DebitCredit = () => {
 };
 
 const Container = styled.div`
-  margin-bottom: 20px;
+  width: 450px;
+  margin-bottom: 32px;
+  background: white;
   padding: 8px 0;
   flex-direction: column;
-  height: 100px;
   box-sizing: border-box;
   display: block;
-  
 `
 const DivWrapper = styled.div`
   display: flex;
@@ -56,18 +57,18 @@ const DivWrapper = styled.div`
 const IncomeWrapper = styled.div`
   justify-content: center;
   position: relative;
-
 `
 const PlusWrapper = styled.div`
   position: absolute;
   right: 16px;
-
-  color: #039be5;
+  color: #039be5; 
 `
 const MinusWrapper = styled.div`
+  position: absolute;
+  right: 16px;
   color: #e51c23;
   padding-bottom: 5px;
-  border-bottom: 1px solid #767676;
+  border-bottom: 1px solid rgba(118, 118, 118, 0.47);
 `
 const TotalWrapper=styled.div`
   color: #757575;

@@ -1,25 +1,33 @@
-import {BalanceType, TransactionType} from "../App";
 import {v1} from "uuid";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+export type CategoryType ={
+    value:string
+    label:string
+}
+
+export type TransactionType = {
+    id: string
+    text: string
+    amount: number
+    date: Date
+    category: CategoryType
+}
 
 
 type InitialState = {
     transactions: Array<TransactionType>
     copyOfTransactions: Array<TransactionType>
-    income: number
-    expense: number
-    total: number
-    popUpForm: boolean
+    copyOfcopyOfTransactions:Array<TransactionType>
+    popUpForm: boolean //move to props a delete slice
     month: number
-    popUpCalendar: boolean
+    popUpCalendar: boolean //move to props a delete slice
     dateRange:DateType
 }
 const initialState: InitialState = {
     transactions: [],
     copyOfTransactions: [],
-    income: 0,
-    expense: 0,
-    total: 0,
+    copyOfcopyOfTransactions:[],
     popUpForm: false,
     month: new Date().getMonth(),
     popUpCalendar:false,
@@ -29,7 +37,8 @@ type PayloadType = {
     text: string,
     amount: number
     date: Date
-    category: string
+    category: {value:string, label:string}
+
 }
 export type DateType = {
     start:Date
@@ -53,7 +62,8 @@ const transactionsSlice = createSlice({
         },
 
         deleteTransaction(state, action: PayloadAction<string>) {
-            state.copyOfTransactions = state.transactions.filter(el => el.id !== action.payload)
+            state.copyOfTransactions = state.copyOfTransactions.filter(el => el.id !== action.payload)
+            state.transactions =state.copyOfTransactions
         },
         changePopUp(state, action: PayloadAction<boolean>) {
             state.popUpForm = action.payload

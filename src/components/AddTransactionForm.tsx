@@ -14,20 +14,18 @@ export const AddTransactionForm = () => {
     const [amount, setAmount] = useState(0)
     const [date, setStartDate] = useState<Date>(new Date());
     const [popUpForm, setPopUpForm] = useState(false)
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState({value: '', label: ''})
     const [expense, setExpense] = useState(false)
     const dispatch = useDispatch()
 
-    const plusCategories = ['salary', 'business', 'transfer', 'interest', 'other']
     const onClickHandler = () => {
-
-
+        console.log(category)
         dispatch(addTransaction({text, amount, date, category}))
         setText('')
         setAmount(0)
         setStartDate(new Date("2/01/22"))
         setPopUpForm(false)
-        setCategory('')
+        setCategory({value: '', label: ''})
         dispatch(changePopUp(popUpForm))
     }
 
@@ -36,15 +34,17 @@ export const AddTransactionForm = () => {
         dispatch(changePopUp(popUpForm))
     }
     const ExpenseHandler = () => {
+        setAmount(0)
         setExpense(!expense)
     }
-
     const AmountHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
-        if (plusCategories.includes(category)) {
-
+        if (!expense){
             setAmount(+e.target.value)
         }else{setAmount(-Math.abs(+e.target.value))}
+    }
+
+    const categoryItems =(value:string,label:string)=>{
+        setCategory({value, label})
     }
 
     return (
@@ -59,7 +59,7 @@ export const AddTransactionForm = () => {
                         ? <ExpenseWrapper onClick={ExpenseHandler}>Expense</ExpenseWrapper>
                         : <ExpenseWrapper onClick={ExpenseHandler}>Income</ExpenseWrapper>
                     }
-                    <SelectForm category={setCategory} isExpense={expense}/>
+                    <SelectForm category={categoryItems} isExpense={expense}/>
                     <CategoryWrapper type='number' value={amount}
                                      onChange={AmountHandler}
                                      placeholder='Amount'/>
@@ -93,7 +93,7 @@ const Container = styled.div`
   align-items: center;
 `
 const Wrapper = styled.div`
-  background-color: #fafafa;
+  background-color: white;
   max-width: 500px;
   width: 90%;
   display: flex;
@@ -131,7 +131,7 @@ const ExpenseWrapper = styled.div`
   border-radius: 70px;
   border: none;
   cursor: pointer;
-  color: #008000FF;
+  color: #039be5;
   &:hover {
     background-color: #039be5;
     color: white;
@@ -159,7 +159,8 @@ const ButtonWrapper = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #039be5;
+    background-color: #e51c23;
+    border-radius: 20px;
     color: white;
 
 `
@@ -176,7 +177,7 @@ const Button = styled.div`
   cursor: pointer;
   border-radius: 20px;
   border: none;
-  color: green;
+  color: #039be5;
   padding: 10px 20px;
 
   &:hover {

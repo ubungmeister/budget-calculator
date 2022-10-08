@@ -14,9 +14,6 @@ import moneySend from './images/transfer.png'
 import work from './images/work.png'
 import business from './images/business.png'
 import deposit from './images/deposit.png'
-
-
-
 const IconWrapper=styled.div`
   display: flex;
   gap:  10px;
@@ -27,7 +24,6 @@ const ImageWrapper = styled.img`
     height:30px ;
     width:30px;
     position: relative;
-    
 `
 const SelectWrapper = styled(Select)`
   .Select__control {
@@ -50,82 +46,93 @@ const SelectWrapper = styled(Select)`
   .Select__indicator-separator {
     display: none;
   }
-
-  //.Select__menu {
-  //  color: #3c3d3e;
-  //}
+  
 `
 
 const options = [
     {
-        value: 'rentals',
-        label: <IconWrapper><ImageWrapper src={rental} height="30px" width="30px"/>Rentals</IconWrapper>
+        value: 'Rental',
+        label: <IconWrapper><ImageWrapper src={rental} height="30px" width="30px"/>Rentals</IconWrapper>,
+        src: 'rental'
     },
     {
-        value: 'transportation',
-        label: <IconWrapper><ImageWrapper src={transport} height="30px" width="30px"/>Transportation</IconWrapper>
+        value: 'Transportation',
+        label: <IconWrapper><ImageWrapper src={transport} height="30px" width="30px"/>Transportation</IconWrapper>,
+        src: 'transport'
     },
     {
-        value: 'utility',
-        label: <IconWrapper><ImageWrapper src={utilities} height="30px" width="30px"/>Utility</IconWrapper>
+        value: 'Utility',
+        label: <IconWrapper><ImageWrapper src={utilities} height="30px" width="30px"/>Utility</IconWrapper>,
+        src:'utilities'
     },
     {
-        value: 'groceries',
-        label: <IconWrapper><ImageWrapper src={grocery} height="30px" width="30px"/>Groceries</IconWrapper>
+        value: 'Groceries',
+        label: <IconWrapper><ImageWrapper src={grocery} height="30px" width="30px"/>Groceries</IconWrapper>,
+        src: 'grocery'
     },
     {
-        value: 'education',
-        label: <IconWrapper><ImageWrapper src={educations} height="30px" width="30px"/>Education</IconWrapper>
+        value: 'Education',
+        label: <IconWrapper><ImageWrapper src={educations} height="30px" width="30px"/>Education</IconWrapper>,
+        src: educations
     },
     {
-        value: 'health',
-        label: <IconWrapper><ImageWrapper src={healths} height="30px" width="30px"/>Health</IconWrapper>
+        value: 'Health',
+        label: <IconWrapper><ImageWrapper src={healths} height="30px" width="30px"/>Health</IconWrapper>,
+        src: 'healths'
     },
     {
-        value: 'coffee',
-        label:  <IconWrapper><ImageWrapper src={coffee} height="30px" width="30px"/>Restaurants</IconWrapper>
+        value: 'Coffee',
+        label: <IconWrapper><ImageWrapper src={coffee} height="30px" width="30px"/>Coffee</IconWrapper>,
+        src: 'coffee'
     },
     {
-        value: 'funMoney',
-        label: <IconWrapper><ImageWrapper src={fun} height="30px" width="30px"/>Fun Money</IconWrapper>
+        value: 'Fun Money',
+        label: <IconWrapper><ImageWrapper src={fun} height="30px" width="30px"/>Fun Money</IconWrapper>,
+        src: 'fun'
     },
     {
-        value: 'other',
-        label: <IconWrapper><ImageWrapper src={others} height="30px" width="30px"/>Other</IconWrapper>
+        value: 'Other',
+        label: <IconWrapper><ImageWrapper src={others} height="30px" width="30px"/>Other</IconWrapper>,
+        src: 'others',
     },
 ]
 const optionsIncome=[
     {
-        value: 'salary',
-        label: <IconWrapper><ImageWrapper src={work} height="30px" width="30px"/>Salary</IconWrapper>
+        value: 'Salary',
+        label: <IconWrapper><ImageWrapper src={work} height="30px" width="30px"/>Salary</IconWrapper>,
+        src: 'work'
     },
     {
-        value: 'business',
-        label: <IconWrapper><ImageWrapper src={business} height="30px" width="30px"/>Business</IconWrapper>
+        value: 'Business',
+        label: <IconWrapper><ImageWrapper src={business} height="30px" width="30px"/>Business</IconWrapper>,
+        src: 'business'
     },
     {
-        value: 'transfer',
-        label: <IconWrapper><ImageWrapper src={moneySend} height="30px" width="30px"/>Incoming transfer</IconWrapper>
+        value: 'Transfer',
+        label: <IconWrapper><ImageWrapper src={moneySend} height="30px" width="30px"/>Transfer</IconWrapper>,
+        src: 'moneySend'
     },
     {
-        value: 'interest',
-        label: <IconWrapper><ImageWrapper src={deposit} height="30px" width="30px"/>Collect Interest</IconWrapper>
+        value: 'Interest',
+        label: <IconWrapper><ImageWrapper src={deposit} height="30px" width="30px"/>Interest</IconWrapper>,
+        src: 'deposit'
     },
     {
-        value: 'otherIncome',
-        label: <IconWrapper><ImageWrapper src={others} height="30px" width="30px"/>Other</IconWrapper>
+        value: 'Other Income',
+        label: <IconWrapper><ImageWrapper src={others} height="30px" width="30px"/>Other Income</IconWrapper>,
+        src: 'others'
     },
 ]
+
 export type PropsType ={
-    category:(category:any)=>void
+    category:(value:string,label:string)=>void
     isExpense:boolean
 }
-
 export const SelectForm = (props:PropsType) => {
     const [category, setCategory] =useState()
     const onChangeHandler =(e:any)=>{
-        setCategory(e.value)
-        props.category(e.value)
+        setCategory(e.constructor)
+        props.category(e.value,e.src)
     }
 
     const getValue = () => {
@@ -133,7 +140,6 @@ export const SelectForm = (props:PropsType) => {
             ? options.find(c => c.value === category)
             :optionsIncome.find(c => c.value === category)
     }
-
 
     return (
         <div>
