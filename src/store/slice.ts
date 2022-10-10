@@ -3,7 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type CategoryType ={
     value:string
-    label:string
+    src:string
 }
 
 export type TransactionType = {
@@ -18,9 +18,9 @@ export type TransactionType = {
 type InitialState = {
     transactions: Array<TransactionType>
     copyOfTransactions: Array<TransactionType>
-    popUpForm: boolean //move to props a delete slice
+    popUpForm: boolean
     month: number
-    popUpCalendar: boolean //move to props a delete slice
+    popUpCalendar: boolean
     dateRange:DateType
 }
 const initialState: InitialState = {
@@ -35,7 +35,7 @@ type PayloadType = {
     text: string,
     amount: number
     date: Date
-    category: {value:string, label:string}
+    category: {value:string, src:string}
 
 }
 export type DateType = {
@@ -63,22 +63,26 @@ const transactionsSlice = createSlice({
             state.copyOfTransactions = state.copyOfTransactions.filter(el => el.id !== action.payload)
             state.transactions =state.copyOfTransactions
         },
-        changePopUp(state, action: PayloadAction<boolean>) {
-            state.popUpForm = action.payload
-        },
-        changePopUpCalendar(state, action: PayloadAction<boolean>) {
-            state.popUpCalendar = action.payload
-        },
+        //Filter for This month & Previous Month
         filterTransaction(state, action: PayloadAction<number>) {
             console.log(action.payload)
             state.copyOfTransactions = state.transactions.filter(el => el.date.getMonth() === action.payload)
         },
+        //Filter for date range
         filterDateTransaction(state,action:PayloadAction<DateType>){
             state.dateRange = action.payload
             state.copyOfTransactions = state.transactions.filter
             (el=>el.date >= action.payload.start
                 && el.date <= action.payload.end)
-        }
+        },
+        //PopUp Transaction Form
+        changePopUp(state, action: PayloadAction<boolean>) {
+            state.popUpForm = action.payload
+        },
+        //PopUp Calendar
+        changePopUpCalendar(state, action: PayloadAction<boolean>) {
+            state.popUpCalendar = action.payload
+        },
     }
 
 })

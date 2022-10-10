@@ -50,6 +50,7 @@ export const Chart = () => {
 
     return (
         <div>
+            {data.length>0?
             <Container>
                 <BarChart width={430} height={250} data={filterData}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -60,6 +61,8 @@ export const Chart = () => {
                     <Bar dataKey='expense' fill="#8884d8"  name='Cash Flow'  barSize={20} />
                 </BarChart>
             </Container>
+            :''
+            }
 
         </div>
     );

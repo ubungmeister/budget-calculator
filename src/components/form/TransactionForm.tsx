@@ -14,7 +14,7 @@ export const TransactionForm = () => {
     const [amount, setAmount] = useState(0)
     const [date, setStartDate] = useState<Date>(new Date());
     const [popUpForm, setPopUpForm] = useState(false)
-    const [category, setCategory] = useState({value: '', label: ''})
+    const [category, setCategory] = useState({value: '', src: ''})
     const [expense, setExpense] = useState(false)
     const dispatch = useDispatch()
 
@@ -26,26 +26,31 @@ export const TransactionForm = () => {
         setAmount(0)
         setStartDate(new Date("2/01/22"))
         setPopUpForm(false)
-        setCategory({value: '', label: ''})
+        setCategory({value: '', src: ''})
         dispatch(changePopUp(popUpForm))
     }
 
     const onPopUpHandler = () => {
+        //Close Transaction form
         setPopUpForm(false)
         dispatch(changePopUp(popUpForm))
     }
     const ExpenseHandler = () => {
+        //Change Button
         setAmount(0)
         setExpense(!expense)
     }
     const AmountHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (!expense){
             setAmount(+e.target.value)
-        }else{setAmount(-Math.abs(+e.target.value))}
+        }else {
+            setAmount(-Math.abs(+e.target.value))
+        }
     }
 
-    const categoryItems =(value:string,label:string)=>{
-        setCategory({value, label})
+    //get from SelectCategoryForm value and src and set as an Object
+    const categoryItems =(value:string,src:string)=>{
+        setCategory({value, src})
     }
 
     return (

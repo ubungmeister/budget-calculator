@@ -17,7 +17,7 @@ export const TransactionHistory = () => {
                 return (
                     <ListWrapper key={el.id}>
                         <DivWrapper>
-                            <ImgWrapper src={el.category.label}/>
+                            <ImgWrapper src={el.category.src}/>
                             <ElementWrapper>
                                 <div>{el.category.value}</div>
                                 <DateWrapper>{el.date.toLocaleDateString('en-US')}</DateWrapper>
