@@ -1,19 +1,19 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
 import Select from "react-select";
-import coffee from './images/coffee.png'
-import educations from './images/education.png'
-import fun from './images/funspending.png'
-import grocery from './images/groceries.png'
-import healths from './images/health.png'
-import others from './images/other.png'
-import rental from './images/rental.png'
-import transport from './images/transport.png'
-import utilities from './images/utility.png'
-import moneySend from './images/transfer.png'
-import work from './images/work.png'
-import business from './images/business.png'
-import deposit from './images/deposit.png'
+import coffee from '../images/coffee.png'
+import educations from '../images/education.png'
+import fun from '../images/funspending.png'
+import grocery from '../images/groceries.png'
+import healths from '../images/health.png'
+import others from '../images/other.png'
+import rental from '../images/rental.png'
+import transport from '../images/transport.png'
+import utilities from '../images/utility.png'
+import moneySend from '../images/transfer.png'
+import work from '../images/work.png'
+import business from '../images/business.png'
+import deposit from '../images/deposit.png'
 const IconWrapper=styled.div`
   display: flex;
   gap:  10px;
@@ -53,22 +53,22 @@ const options = [
     {
         value: 'Rental',
         label: <IconWrapper><ImageWrapper src={rental} height="30px" width="30px"/>Rentals</IconWrapper>,
-        src: 'rental'
+        src: rental
     },
     {
         value: 'Transportation',
         label: <IconWrapper><ImageWrapper src={transport} height="30px" width="30px"/>Transportation</IconWrapper>,
-        src: 'transport'
+        src: transport
     },
     {
         value: 'Utility',
         label: <IconWrapper><ImageWrapper src={utilities} height="30px" width="30px"/>Utility</IconWrapper>,
-        src:'utilities'
+        src: utilities
     },
     {
         value: 'Groceries',
         label: <IconWrapper><ImageWrapper src={grocery} height="30px" width="30px"/>Groceries</IconWrapper>,
-        src: 'grocery'
+        src: grocery
     },
     {
         value: 'Education',
@@ -78,49 +78,49 @@ const options = [
     {
         value: 'Health',
         label: <IconWrapper><ImageWrapper src={healths} height="30px" width="30px"/>Health</IconWrapper>,
-        src: 'healths'
+        src: healths
     },
     {
         value: 'Coffee',
         label: <IconWrapper><ImageWrapper src={coffee} height="30px" width="30px"/>Coffee</IconWrapper>,
-        src: 'coffee'
+        src: coffee
     },
     {
         value: 'Fun Money',
         label: <IconWrapper><ImageWrapper src={fun} height="30px" width="30px"/>Fun Money</IconWrapper>,
-        src: 'fun'
+        src: fun
     },
     {
         value: 'Other',
         label: <IconWrapper><ImageWrapper src={others} height="30px" width="30px"/>Other</IconWrapper>,
-        src: 'others',
+        src: others
     },
 ]
 const optionsIncome=[
     {
         value: 'Salary',
         label: <IconWrapper><ImageWrapper src={work} height="30px" width="30px"/>Salary</IconWrapper>,
-        src: 'work'
+        src: work
     },
     {
         value: 'Business',
         label: <IconWrapper><ImageWrapper src={business} height="30px" width="30px"/>Business</IconWrapper>,
-        src: 'business'
+        src: business
     },
     {
         value: 'Transfer',
         label: <IconWrapper><ImageWrapper src={moneySend} height="30px" width="30px"/>Transfer</IconWrapper>,
-        src: 'moneySend'
+        src: moneySend
     },
     {
         value: 'Interest',
         label: <IconWrapper><ImageWrapper src={deposit} height="30px" width="30px"/>Interest</IconWrapper>,
-        src: 'deposit'
+        src: deposit
     },
     {
         value: 'Other Income',
         label: <IconWrapper><ImageWrapper src={others} height="30px" width="30px"/>Other Income</IconWrapper>,
-        src: 'others'
+        src: others
     },
 ]
 
@@ -128,7 +128,7 @@ export type PropsType ={
     category:(value:string,label:string)=>void
     isExpense:boolean
 }
-export const SelectForm = (props:PropsType) => {
+export const SelectCategoryForm = (props:PropsType) => {
     const [category, setCategory] =useState()
     const onChangeHandler =(e:any)=>{
         setCategory(e.constructor)

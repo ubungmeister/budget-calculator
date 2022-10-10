@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import styled from "styled-components";
-import {DebitCredit} from "./components/DebitCredit";
-import {TransactionHistory} from "./components/TransactionHistory";
-import {AddTransactionForm} from "./components/AddTransactionForm";
+import {IncomeExpenseTable} from "./components/history/IncomeExpenseTable";
+import {TransactionHistory} from "./components/history/TransactionHistory";
+import {TransactionForm} from "./components/form/TransactionForm";
 import {AppRootStateType} from "./store";
 import {useDispatch, useSelector} from "react-redux";
 import {changePopUp, changePopUpCalendar, DateType, filterTransaction} from "./store/slice";
-import {RangeCalendar} from "./components/RangeCalendar";
-import pieChart from './components/images/pie-chart-683.png'
-import chart from './components/images/bar-chart-675.png'
+import {FilterByDateRange} from "./components/FilterByDateRange";
+import pieChartPng from './components/images/pie-chart-683.png'
+import chartPng from './components/images/bar-chart-675.png'
 import plus from './components/images/pluss.png'
+import {Graphs} from "./components/graphs/Graphs";
 
 
 function App() {
@@ -18,15 +19,18 @@ function App() {
     const popUpCalendar = useSelector<AppRootStateType, boolean>(state => state.transaction.popUpCalendar)
     const dateRange = useSelector<AppRootStateType, DateType>(state => state.transaction.dateRange)
     const dispatch = useDispatch()
+
+    const [pieChart,setPieChart] = useState(false)
+    const [chart,setChart] = useState(false)
+
     //show date range in filter
     const dateFormat=()=>{
         return dateRange.end.getMonth() +'/'+ dateRange.end.getDate() +'/'+ dateRange.end.getFullYear()+'-'
             +dateRange.start.getMonth() +'/'+ dateRange.start.getDate() +'/'+ dateRange.start.getFullYear()
     }
-
+    console.log({chart, pieChart})
     return (
         <div>
-
             <Container>
                 <Filter>
                     <FilterItem onClick={()=>dispatch(filterTransaction(new Date().getMonth()-1))}>LAST MONTH</FilterItem>
@@ -34,15 +38,22 @@ function App() {
                     {/* dispatch true if click on date filter */}
                     <Calendar onClick={()=>dispatch(changePopUpCalendar(true))}>{dateFormat()}</Calendar>
                 </Filter>
-                {popUpCalendar ? <RangeCalendar/>:''}
-                <DebitCredit/>
-                <TransactionHistory/>
-                {popUpForm ? <AddTransactionForm/> : ''}
+                {popUpCalendar ? <FilterByDateRange/>:''}
+                <IncomeExpenseTable/>
+                {pieChart||chart?<Graphs isPie={pieChart} isChart={chart}/>:<TransactionHistory/>}
+                {popUpForm ? <TransactionForm/> : ''}
                 <ButtonsPositionWrapper>
-                       <ImgWrapper src={pieChart}/>
-                        <ImgWrapper src={chart}/>
+                       <ImgWrapper onClick={()=>{
+                           setPieChart(!pieChart)
+                           setChart(false)
+                       }} src={pieChartPng}/>
+                        <ImgWrapper onClick={()=>{
+                            setChart(!chart)
+                            setPieChart(false)
+                        }} src={chartPng}/>
                      <ImgWrapper onClick={()=>dispatch(changePopUp(true))} src={plus}/>
                 </ButtonsPositionWrapper>
+
             </Container>
 
         </div>
@@ -98,17 +109,6 @@ const Calendar = styled.button`
     color: rgba(0, 128, 0, 0.9);
   }
 `
-const ButtonsWrapper = styled.div`
-  font-size: 15px;
-  color: rgba(0, 0, 0, .54);
-  outline: none;
-  cursor: pointer;
-  &:focus {
-    outline: none;
-    border-top: 1px solid green;
-    color: rgba(0, 128, 0, 0.9);
-  }
-`
 const ButtonsPositionWrapper = styled.div`
   height: 70px;
   padding-left: 100px;
@@ -132,18 +132,4 @@ const ImgWrapper = styled.img`;
     cursor: pointer;
   \`
     
-`
-
-const Button = styled.div`
-  font-size: 15px;
-  background: rgba(40, 44, 52, 0.04);
-  cursor: pointer;
-  border-radius: 20px;
-  border: none;
-  color: #039be5;
-  padding: 10px 20px;
-
-  &:hover {
-    background-color: #039be5;
-    color: white;
 `

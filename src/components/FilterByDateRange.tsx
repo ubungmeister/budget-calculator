@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import styled from "styled-components";
 
 
-export const RangeCalendar = () => {
+export const FilterByDateRange = () => {
 
     const dispatch = useDispatch()
     const [startDate, setStartDate] = useState<Date>(new Date());

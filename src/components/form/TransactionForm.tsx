@@ -1,15 +1,15 @@
 import React, {ChangeEvent, useState} from 'react';
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
-import {addTransaction, changePopUp} from "../store/slice";
+import {addTransaction, changePopUp} from "../../store/slice";
 import DatePicker from "react-datepicker";
 import {FaWindowClose} from "react-icons/fa";
-import {SelectForm} from "./SelectForm";
+import {SelectCategoryForm} from "./SelectCategoryForm";
 
 
 
 
-export const AddTransactionForm = () => {
+export const TransactionForm = () => {
     const [text, setText] = useState('')
     const [amount, setAmount] = useState(0)
     const [date, setStartDate] = useState<Date>(new Date());
@@ -19,8 +19,9 @@ export const AddTransactionForm = () => {
     const dispatch = useDispatch()
 
     const onClickHandler = () => {
-        console.log(category)
-        dispatch(addTransaction({text, amount, date, category}))
+        if(category.value !== '' && amount !==0){
+            dispatch(addTransaction({text, amount, date, category}))
+        }
         setText('')
         setAmount(0)
         setStartDate(new Date("2/01/22"))
@@ -59,7 +60,7 @@ export const AddTransactionForm = () => {
                         ? <ExpenseWrapper onClick={ExpenseHandler}>Expense</ExpenseWrapper>
                         : <ExpenseWrapper onClick={ExpenseHandler}>Income</ExpenseWrapper>
                     }
-                    <SelectForm category={categoryItems} isExpense={expense}/>
+                    <SelectCategoryForm category={categoryItems} isExpense={expense}/>
                     <CategoryWrapper type='number' value={amount}
                                      onChange={AmountHandler}
                                      placeholder='Amount'/>

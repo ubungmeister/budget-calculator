@@ -18,7 +18,6 @@ export type TransactionType = {
 type InitialState = {
     transactions: Array<TransactionType>
     copyOfTransactions: Array<TransactionType>
-    copyOfcopyOfTransactions:Array<TransactionType>
     popUpForm: boolean //move to props a delete slice
     month: number
     popUpCalendar: boolean //move to props a delete slice
@@ -27,7 +26,6 @@ type InitialState = {
 const initialState: InitialState = {
     transactions: [],
     copyOfTransactions: [],
-    copyOfcopyOfTransactions:[],
     popUpForm: false,
     month: new Date().getMonth(),
     popUpCalendar:false,

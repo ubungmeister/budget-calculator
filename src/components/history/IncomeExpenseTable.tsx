@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from "styled-components";
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../store";
-import {TransactionType} from "../store/slice";
+import {AppRootStateType} from "../../store";
+import {TransactionType} from "../../store/slice";
+const formatDecimals = (item: number) => {
+    return Number(item.toFixed(2))
+}
 
-
-export const DebitCredit = () => {
+export const IncomeExpenseTable = () => {
     let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.copyOfTransactions)
     const amounts = transactions.map(el=>el.amount)
-    const expense =  amounts.filter(el=>el < 0)
-        .reduce((acc, el)=> (acc = acc + el),0).toFixed(2)
-    const income =  amounts.filter(el=>el > 0)
-        .reduce((acc, el)=> (acc = acc + el),0).toFixed(2)
-    const total = (Number(income) - Number(-expense)).toFixed(2)
+    const expense =  formatDecimals(amounts.filter(el=>el < 0)
+        .reduce((acc, el)=> (acc = acc + el),0))
+    const income =  formatDecimals(amounts.filter(el=>el > 0)
+        .reduce((acc, el)=> (acc = acc + el),0))
+    const total = formatDecimals((Number(income) - Number(-expense)))
 
     return (
 
@@ -36,7 +38,6 @@ export const DebitCredit = () => {
 
 const Container = styled.div`
   width: 450px;
-  margin-bottom: 32px;
   background: white;
   padding: 8px 0;
   flex-direction: column;

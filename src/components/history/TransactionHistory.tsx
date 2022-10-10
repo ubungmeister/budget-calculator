@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../store";
-import {deleteTransaction, TransactionType} from "../store/slice";
+import {AppRootStateType} from "../../store";
+import {deleteTransaction, TransactionType} from "../../store/slice";
 
 export interface ColorProps {
     amount: number
@@ -12,7 +12,7 @@ export const TransactionHistory = () => {
     let transactions = useSelector<AppRootStateType, Array<TransactionType>>(state => state.transaction.copyOfTransactions)
     const dispatch = useDispatch()
     return (
-        <Container id="list" className="list">
+        <Container>
             {transactions.map((el) => {
                 return (
                     <ListWrapper key={el.id}>
@@ -38,12 +38,12 @@ export const TransactionHistory = () => {
 
 const Container = styled.ul`
   width: 450px;
-  min-height: 70px;
   background: #f4f4f4;
   list-style-type: none;
   padding: 0;
 `
 const ListWrapper = styled.div`
+  margin-top: 32px;
   height: 75px;
   background-color: #ffff;
   margin-left: 0;
